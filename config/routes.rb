@@ -3,11 +3,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :users, only: [:create, :update, :destroy] do
+      resources :users, only: [:create, :show, :update, :destroy] do
         resources :playlists, only: [:show, :index, :create, :update, :destroy] do 
 
 
-          resources :songs, only: [:index, :show]
+          resources :songs, only: [:index, :show, :destroy]
 
         end 
       end 
