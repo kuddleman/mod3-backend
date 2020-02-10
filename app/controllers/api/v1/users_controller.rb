@@ -6,9 +6,10 @@ class Api::V1::UsersController < ApplicationController
     #byebug
     new_user = User.new(strong_params)
     if new_user.save!
-      # user created, return token
+      # user created, return token, user info
+
       render json: { token: createToken(new_user.id),
-                    user: { username: new_user.username, id: new_user.id } }.to_json
+                    user: SerializableResource.new(new_user).to_json
     else
       render json: { failure: "sorry, something went wrong" }.to_json
     end
