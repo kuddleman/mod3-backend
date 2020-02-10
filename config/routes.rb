@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :users, only: [:create, :show, :update, :destroy] do
+      post '/users/signup', to: 'users#create'  
+      resources :users, only: [:show, :update, :destroy] do
         resources :playlists, only: [:show, :index, :create, :update, :destroy] do 
 
 
