@@ -9,7 +9,7 @@ class Api::V1::UsersController < ApplicationController
       # user created, return token, user info
 
       render json: { token: createToken(new_user.id),
-                    user: SerializableResource.new(new_user).to_json
+                    user: ActiveModel::SerializableResource.new(new_user)}.to_json
     else
       render json: { failure: "sorry, something went wrong" }.to_json
     end
