@@ -3,10 +3,16 @@ class Api::V1::SongsController < ApplicationController
     if authorized
       song = Song.find(params[:id])
       user = User.find(params[:user_id])
-      if song and song.destroy
+      playlist = Playlist.find(params[:playlist_id])
+      if song and playlist.songs.delete(song) # remove song association with play list
+        # if song is not on any playlists, delete it
+        if song.playlists.empty?
+          song.destroy
+        end 
+
         render json: createUserData(user, false)
       else
-        render json: { error: "the song couldnt be deleted" }
+        render json: { error: "the song couldnt be deleted from playlist" }
       end
     end
   end
