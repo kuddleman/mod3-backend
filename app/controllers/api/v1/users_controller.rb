@@ -1,5 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-  
   def login
     password = params["user_info"]["password"]
     email = params["user_info"]["email"]
@@ -7,22 +6,20 @@ class Api::V1::UsersController < ApplicationController
     if user and user.authenticate(password)
       # create token
       # send token and user data back
-      render json: createUserData(user)
-
-    else 
+      render json: createUserData(user, true)
+    else
       # send back error
-      render json: {errors: "invalid username / password combination"}
-    end    
+      render json: { errors: "invalid username / password combination" }
+    end
   end
 
   def create
-    #byebug
+   
     new_user = User.new(strong_params)
     if new_user.save
       # user created, return token, user info
 
-      render json: createUserData(new_user)
-
+      render json: createUserData(new_user, true)
     else
       render json: { errors: "sorry, something went wrong" }.to_json
     end
@@ -42,11 +39,4 @@ class Api::V1::UsersController < ApplicationController
   def strong_params
     params.require(:user_info).permit(:first_name, :last_name, :username, :email, :password, :password_confirmation)
   end
-   
-  def createUserData(user)
-    { token: createToken(user.id),
-      user: ActiveModelSerializers::SerializableResource.new(user).as_json
-    }.to_json  
-  end 
-
 end
