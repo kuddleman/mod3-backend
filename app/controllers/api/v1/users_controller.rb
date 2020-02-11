@@ -7,8 +7,7 @@ class Api::V1::UsersController < ApplicationController
     if user and user.authenticate(password)
       # create token
       # send token and user data back
-      render json: { token: createToken(user.id),
-        user: ActiveModel::SerializableResource.new(user)}.to_json
+      render json: createUserData(user)
 
     else 
       # send back error
@@ -19,11 +18,11 @@ class Api::V1::UsersController < ApplicationController
   def create
     #byebug
     new_user = User.new(strong_params)
-    if new_user.save!
+    if new_user.save
       # user created, return token, user info
 
-      render json: { token: createToken(new_user.id),
-                    user: ActiveModel::SerializableResource.new(new_user)}.to_json
+      render json: createUserData(new_user)
+
     else
       render json: { errors: "sorry, something went wrong" }.to_json
     end
@@ -43,4 +42,11 @@ class Api::V1::UsersController < ApplicationController
   def strong_params
     params.require(:user_info).permit(:first_name, :last_name, :username, :email, :password, :password_confirmation)
   end
+   
+  def createUserData(user)
+    { token: createToken(user.id),
+      user: ActiveModelSerializers::SerializableResource.new(user).as_json
+    }.to_json  
+  end 
+
 end
