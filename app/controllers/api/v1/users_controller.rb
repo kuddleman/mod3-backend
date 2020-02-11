@@ -1,6 +1,19 @@
 class Api::V1::UsersController < ApplicationController
+  
   def login
-    byebug
+    password = params["user_info"]["password"]
+    email = params["user_info"]["email"]
+    user = User.find_by(email: email)
+    if user and user.authenticate(password)
+      # create token
+      # send token and user data back
+      render json: { token: createToken(user.id),
+        user: ActiveModel::SerializableResource.new(user)}.to_json
+
+    else 
+      # send back error
+      render json: {errors: "invalid username / password combination"}
+    end    
   end
 
   def create
@@ -12,7 +25,7 @@ class Api::V1::UsersController < ApplicationController
       render json: { token: createToken(new_user.id),
                     user: ActiveModel::SerializableResource.new(new_user)}.to_json
     else
-      render json: { failure: "sorry, something went wrong" }.to_json
+      render json: { errors: "sorry, something went wrong" }.to_json
     end
   end
 
