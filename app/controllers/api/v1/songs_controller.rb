@@ -40,6 +40,16 @@ class Api::V1::SongsController < ApplicationController
     end
   end
 
+  def index 
+    if authorized 
+      user = User.find(params[:user_id]) 
+      render json: createUserData(user, false)
+    else 
+      render json: {error: "You are not authorized"} 
+    end 
+    
+  end 
+
   private
 
   def strong_params
