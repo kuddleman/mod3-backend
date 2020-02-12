@@ -47,12 +47,10 @@ class Api::V1::UsersController < ApplicationController
     token = params[:access_token]
     puts token
     if token
-      # save token in session
-      session["spotify_access_token"] = token
-      puts("session, token: #{session["spotify_access_token"]}")
+      # save token in db
+      token = SpotifyAccessToken.create!(value: token)
     end
   end
-  
 
   private
 
