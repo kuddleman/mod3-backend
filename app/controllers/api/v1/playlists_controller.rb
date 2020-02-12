@@ -11,7 +11,9 @@ class Api::V1::PlaylistsController < ApplicationController
       
       if authorized
         user = User.find(params[:user_id])
-        new_playlist = Playlist.new()
+        new_playlist = Playlist.new(strong_params)
+        user.playlists << new_playlist
+        render json: createUserData(user, false)
       else     
          render json: {error: "you're not authorized" }
       end
