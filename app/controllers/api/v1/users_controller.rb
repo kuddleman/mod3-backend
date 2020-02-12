@@ -32,6 +32,18 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def destroy
+     
+     if authorized
+      user = User.find(params[:user_id])
+      if user.destroy
+        render :json {success: "user account destroyed!"}  
+      else
+        render :json {error: "something went wrong. your account couldnt be deleted."}         
+      end 
+     else
+      render :json {error: "you are not authorized to delete this resource"} 
+     end 
+
   end
 
   private
