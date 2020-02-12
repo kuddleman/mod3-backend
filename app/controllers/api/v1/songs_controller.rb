@@ -10,7 +10,7 @@ class Api::V1::SongsController < ApplicationController
           song.destroy
         end
 
-        render json: createUserData(user, false)
+        render json: createUserData(user, false, false)
       else
         render json: { error: "the song couldnt be deleted from playlist" }
       end
@@ -31,7 +31,7 @@ class Api::V1::SongsController < ApplicationController
         user = User.find(params[:user_id])
         playlist.songs << song
         # return user data
-        render json: createUserData(user, false)
+        render json: createUserData(user, , false)
       else
         render json: { error: "unable to add song to your playlist" }
       end
@@ -43,7 +43,7 @@ class Api::V1::SongsController < ApplicationController
   def index 
     if authorized 
       user = User.find(params[:user_id]) 
-      render json: createUserData(user, false)
+      render json: createUserData(user, false, false)
     else 
       render json: {error: "You are not authorized"} 
     end 

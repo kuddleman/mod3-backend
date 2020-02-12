@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_10_190002) do
+ActiveRecord::Schema.define(version: 2020_02_12_194819) do
 
   create_table "playlist_songs", force: :cascade do |t|
     t.integer "song_id"
@@ -39,6 +39,12 @@ ActiveRecord::Schema.define(version: 2020_02_10_190002) do
     t.string "artist"
     t.string "album"
     t.string "genre"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "spotify_access_tokens", force: :cascade do |t|
+    t.string "value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

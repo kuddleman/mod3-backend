@@ -31,13 +31,16 @@ class ApplicationController < ActionController::API
     return authenticated == userId || authenticated == userId.to_i
   end
 
-  def createUserData(user, useToken)
+  def createUserData(user, identityToken, spotifyToken)
     data = {
       user: ActiveModelSerializers::SerializableResource.new(user).as_json,
     }
-    if useToken
+    if identityToken
       data[:token] = createToken(user.id)
     end
+    if spotifyToken
+      data[:spotify_token] = Token.all.first.value
+    end 
     data.to_json
   end
 end

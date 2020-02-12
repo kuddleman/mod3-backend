@@ -1,0 +1,2 @@
+class SpotifyAccessToken < ApplicationRecord
+end
