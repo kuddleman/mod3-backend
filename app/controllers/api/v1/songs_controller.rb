@@ -8,7 +8,7 @@ class Api::V1::SongsController < ApplicationController
         # if song is not on any playlists, delete it
         if song.playlists.empty?
           song.destroy
-        end 
+        end
 
         render json: createUserData(user, false)
       else
@@ -22,12 +22,13 @@ class Api::V1::SongsController < ApplicationController
 
     #byebug
     if authorized
-      # create the song
-      user = User.find(params[:user_id])
-      song = Song.new(strong_params)
+      # check to see if song exists; if not, create it
+
+      playlist = Playlist.find(params[:playlist_id])
+      song = Song.find_by(name: params[:name], artist: params[:artist]) || Song.new(strong_params)
       if song.save!
         # add song to playlist
-        playlist = Playlist.find(params[:playlist_id])
+        user = User.find(params[:user_id])
         playlist.songs << song
         # return user data
         render json: createUserData(user, false)
