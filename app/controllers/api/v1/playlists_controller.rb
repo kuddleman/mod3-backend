@@ -17,9 +17,16 @@ class Api::V1::PlaylistsController < ApplicationController
       else     
          render json: {error: "you're not authorized" }
       end
-      
-     
-      
+    end 
+
+    def destroy
+       if authorized
+         user = User.find(params[:user_id])
+         Playlist.find(params[:playlist_id]).destroy
+         render json: createUserData(user, false) 
+       else
+         render json: {error: "you're not authorized"}
+       end 
     end 
 
     private 
