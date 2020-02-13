@@ -1,11 +1,14 @@
 class Api::V1::PlaylistsController < ApplicationController
     def index
-      if authorized
-        render json: createUserData(User.find(params[:user_id]), false, false) 
+
+      token = authenticated
+       
+      if token
+        render json: createUserData(User.find(token), false, false) 
       else
         render json: { error: "You're not authorized" }.to_json
       end
-    end
+    end   
 
     def create
       

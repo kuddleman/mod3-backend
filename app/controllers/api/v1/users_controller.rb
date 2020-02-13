@@ -8,8 +8,9 @@ class Api::V1::UsersController < ApplicationController
       # send token and user data back
       render json: createUserData(user, true, true)
     else
+      
       # send back error
-      render json: { errors: "invalid username / password combination" }
+      render json: { error: "invalid username / password combination" }
     end
   end
 
@@ -20,10 +21,9 @@ class Api::V1::UsersController < ApplicationController
 
       render json: createUserData(new_user, true, true)
     else
-      render json: { errors: "sorry, something went wrong" }.to_json
+      render json: { errors: ["sorry, something went wrong"] }.to_json
     end
   end
- 
 
   def destroy
     if authorized
