@@ -5,6 +5,7 @@ class ApplicationController < ActionController::API
 
   def getToken
     token_info = request.headers["Authorization"]
+    #byebug
     if token_info
       is_bearer = token_info.match(/Bearer /)
       # token will be second item in token info array, if Bearer TOKEN structure is met
@@ -26,8 +27,8 @@ class ApplicationController < ActionController::API
   end
 
   def authorized
-   
-    userId = params[:user_id]
+    userId = params[:user_id] || params[:id]
+    
     return authenticated == userId || authenticated == userId.to_i
   end
 
@@ -39,8 +40,8 @@ class ApplicationController < ActionController::API
       data[:token] = createToken(user.id)
     end
     if spotifyToken
-      data[:spotify_token] = Token.all.first.value
-    end 
+      data[:spotify_token] = !SpotifyAccessToken.all.empty? ? SpotifyAccessToken.all.first : nil
+    end
     data.to_json
   end
 end

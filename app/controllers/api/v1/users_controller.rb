@@ -23,16 +23,11 @@ class Api::V1::UsersController < ApplicationController
       render json: { errors: "sorry, something went wrong" }.to_json
     end
   end
-
-  def show
-  end
-
-  def update
-  end
+ 
 
   def destroy
     if authorized
-      user = User.find(params[:user_id])
+      user = User.find(params[:id])
       if user.destroy
         render json: { success: "user account destroyed!" }
       else

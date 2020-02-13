@@ -7,8 +7,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/users/signup', to: 'users#create'
       post '/users/login', to: 'users#login'
-      post '/users/spotify_access_token', to: 'users#spotify_access_token'
-      get '/users/:user_id/give_access_token', to: 'users#give_access_token'   
+      get '/users/spotify_access_token', to: 'users#spotify_access_token'
+      get '/users/give_access_token', to: 'users#give_access_token'   
       resources :users, only: [:show, :update, :destroy] do
         resources :playlists, only: [:show, :index, :create, :update, :destroy] do 
 
